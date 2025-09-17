@@ -24,6 +24,22 @@
             margin: 0 auto;
         }
         
+        .page-title {
+            text-align: center;
+            font-size: 2rem;
+            font-weight: 300;
+            margin-bottom: 30px;
+            color: #2c3e50;
+        }
+        
+        .page-title.mobile {
+            display: none;
+        }
+        
+        .page-title.desktop {
+            display: block;
+        }
+        
         .product-item {
             display: flex;
             align-items: center;
@@ -153,7 +169,19 @@
             .video-thumbnail {
                 flex: none;
                 width: 100%;
-                height: 250px;
+                height: auto;
+            }
+            
+            .video-thumbnail video {
+                object-fit: contain;
+            }
+            
+            .page-title.desktop {
+                display: none;
+            }
+            
+            .page-title.mobile {
+                display: block;
             }
             
             .rotation-slider {
@@ -172,19 +200,21 @@
 </head>
 <body>
     <div class="container">
+        <h1 class="page-title desktop">DESKTOP</h1>
+        <h1 class="page-title mobile">MOBILE</h1>
         
         <!-- Product 1 -->
         <div class="product-item">
             <div class="video-thumbnail" data-product="1">
                 <video class="product-video" muted preload="metadata" data-video-id="1">
-                    <source src="64_frames_600x600.webm" type="video/webm">
+                    <source src="STAR_HATV_600x600_16frames_small.webm" type="video/webm">
                     <div class="loading-state">Loading...</div>
                 </video>
                 <div class="rotation-indicator" data-rotation="1">0°</div>
             </div>
             <input type="range" class="rotation-slider" min="0" max="100" value="0" data-slider-id="1">
             <div class="product-info">
-                <h2 class="product-title">193kb Webm 64 frames</h2>
+                <h2 class="product-title">Mountain Vista Series</h2>
                 <p class="product-description">Hand-forged metal sculpture capturing the essence of Idaho's majestic peaks. Each angle reveals new depths and shadows, creating an ever-changing landscape of light and form.</p>
                 <div class="product-location">Downtown Boise Arts District</div>
             </div>
@@ -194,14 +224,14 @@
         <div class="product-item">
             <div class="video-thumbnail" data-product="2">
                 <video class="product-video" muted preload="metadata" data-video-id="2">
-                    <source src="64_frames_600x600.webm" type="video/webm">
+                    <source src="STAR_HATV_600x600 32frames.webm" type="video/webm">
                     <div class="loading-state">Loading...</div>
                 </video>
                 <div class="rotation-indicator" data-rotation="2">0°</div>
             </div>
             <input type="range" class="rotation-slider" min="0" max="100" value="0" data-slider-id="2">
             <div class="product-info">
-                <h2 class="product-title">193kb Webm 64 frames</h2>
+                <h2 class="product-title">Urban Flow Collection</h2>
                 <p class="product-description">Contemporary glass and steel piece inspired by the Boise River's journey through the city. The interplay of transparent and reflective surfaces creates mesmerizing patterns from every viewpoint.</p>
                 <div class="product-location">Foothills Art Gallery</div>
             </div>
@@ -211,14 +241,14 @@
         <div class="product-item">
             <div class="video-thumbnail" data-product="3">
                 <video class="product-video" muted preload="metadata" data-video-id="3">
-                    <source src="64_frames_600x600.webm" type="video/webm">
+                    <source src="STAR_HATV_600x600_skip20.webm" type="video/webm">
                     <div class="loading-state">Loading...</div>
                 </video>
                 <div class="rotation-indicator" data-rotation="3">0°</div>
             </div>
             <input type="range" class="rotation-slider" min="0" max="100" value="0" data-slider-id="3">
             <div class="product-info">
-                <h2 class="product-title">193kb Webm 64 frames</h2>
+                <h2 class="product-title">Prairie Wind Sculpture</h2>
                 <p class="product-description">Organic ceramic form celebrating Idaho's vast landscapes and endless skies. The smooth curves and earth-toned glazes shift and dance as light moves around this timeless piece.</p>
                 <div class="product-location">Hyde Park Creative District</div>
             </div>
