@@ -105,6 +105,37 @@
             font-size: 14px;
         }
         
+        .rotation-slider {
+            display: none;
+            width: 100%;
+            margin: 15px 0;
+            -webkit-appearance: none;
+            appearance: none;
+            height: 6px;
+            border-radius: 3px;
+            background: #ddd;
+            outline: none;
+        }
+        
+        .rotation-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #667eea;
+            cursor: pointer;
+        }
+        
+        .rotation-slider::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #667eea;
+            cursor: pointer;
+            border: none;
+        }
+        
         .loading-state {
             display: flex;
             align-items: center;
@@ -123,6 +154,10 @@
                 flex: none;
                 width: 100%;
                 height: 250px;
+            }
+            
+            .rotation-slider {
+                display: block;
             }
             
             .product-info {
@@ -147,10 +182,11 @@
                 </video>
                 <div class="rotation-indicator" data-rotation="1">0°</div>
             </div>
+            <input type="range" class="rotation-slider" min="0" max="100" value="0" data-slider-id="1">
             <div class="product-info">
-                <h2 class="product-title">73kb 16 Frames webm</h2>
-                <p class="product-description">Text here</p>
-                <div class="product-location">City of Star</div>
+                <h2 class="product-title">Mountain Vista Series</h2>
+                <p class="product-description">Hand-forged metal sculpture capturing the essence of Idaho's majestic peaks. Each angle reveals new depths and shadows, creating an ever-changing landscape of light and form.</p>
+                <div class="product-location">Downtown Boise Arts District</div>
             </div>
         </div>
 
@@ -158,15 +194,16 @@
         <div class="product-item">
             <div class="video-thumbnail" data-product="2">
                 <video class="product-video" muted preload="metadata" data-video-id="2">
-                    <source src="STAR_HATV_600x600_32frames_small.webm" type="video/webm">
+                    <source src="STAR_HATV_600x600 32frames.webm" type="video/webm">
                     <div class="loading-state">Loading...</div>
                 </video>
                 <div class="rotation-indicator" data-rotation="2">0°</div>
             </div>
+            <input type="range" class="rotation-slider" min="0" max="100" value="0" data-slider-id="2">
             <div class="product-info">
-                <h2 class="product-title">73kb 32 Frames webm</h2>
-                <p class="product-description">Text here</p>
-                <div class="product-location">New York, NY</div>
+                <h2 class="product-title">Urban Flow Collection</h2>
+                <p class="product-description">Contemporary glass and steel piece inspired by the Boise River's journey through the city. The interplay of transparent and reflective surfaces creates mesmerizing patterns from every viewpoint.</p>
+                <div class="product-location">Foothills Art Gallery</div>
             </div>
         </div>
 
@@ -179,10 +216,11 @@
                 </video>
                 <div class="rotation-indicator" data-rotation="3">0°</div>
             </div>
+            <input type="range" class="rotation-slider" min="0" max="100" value="0" data-slider-id="3">
             <div class="product-info">
-                <h2 class="product-title">Heart 3</h2>
-                <p class="product-description">Text here</p>
-                <div class="product-location">Austin, TX</div>
+                <h2 class="product-title">Prairie Wind Sculpture</h2>
+                <p class="product-description">Organic ceramic form celebrating Idaho's vast landscapes and endless skies. The smooth curves and earth-toned glazes shift and dance as light moves around this timeless piece.</p>
+                <div class="product-location">Hyde Park Creative District</div>
             </div>
         </div>
         
@@ -200,15 +238,16 @@
                     const videoId = video.getAttribute('data-video-id');
                     const thumbnail = video.closest('.video-thumbnail');
                     const rotationIndicator = thumbnail.querySelector('.rotation-indicator');
+                    const slider = document.querySelector(`[data-slider-id="${videoId}"]`);
                     
                     let videoDuration = 0;
                     let isReady = false;
                     
-                    // Optimize video settings for better seeking performance
+                    // Video loading events
                     video.addEventListener('loadedmetadata', () => {
                         videoDuration = video.duration;
                         isReady = true;
-                        video.currentTime = 0; // Start at beginning
+                        video.currentTime = 0; // Start at 0 degrees
                     });
                     
                     video.addEventListener('canplay', () => {
@@ -242,6 +281,11 @@
                         }
                         
                         rotationIndicator.textContent = rotationAngle + '°';
+                        
+                        // Update slider value
+                        if (slider) {
+                            slider.value = percentage;
+                        }
                     });
                     
                     // Reset to start when mouse leaves
@@ -249,8 +293,25 @@
                         if (isReady) {
                             video.currentTime = 0;
                             rotationIndicator.textContent = '0°';
+                            if (slider) {
+                                slider.value = 0;
+                            }
                         }
                     });
+                    
+                    // Mobile slider functionality
+                    if (slider) {
+                        slider.addEventListener('input', (e) => {
+                            if (!isReady || videoDuration === 0) return;
+                            
+                            const percentage = parseFloat(e.target.value);
+                            const targetTime = ((100 - percentage) / 100) * videoDuration;
+                            const rotationAngle = Math.round(percentage * 3.6);
+                            
+                            video.currentTime = targetTime;
+                            rotationIndicator.textContent = rotationAngle + '°';
+                        });
+                    }
                     
                     // Prevent autoplay
                     video.addEventListener('loadstart', () => {
